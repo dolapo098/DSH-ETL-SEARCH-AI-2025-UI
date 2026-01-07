@@ -1,0 +1,36 @@
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+
+export class AxiosClientService {
+  public axiosInstance: AxiosInstance;
+
+  constructor(baseURL: string) {
+    this.axiosInstance = axios.create({
+      baseURL: baseURL,
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: false,
+    });
+
+    this.initializeResponseInterceptor();
+  }
+
+  private initializeResponseInterceptor() {
+    this.axiosInstance.interceptors.response.use(
+      (response: AxiosResponse) => response,
+      (error: AxiosError) => {
+        // Standardized logging for errors
+        console.error(`API Error [${error.config?.url}]:`, error.response?.data || error.message);
+        return Promise.reject(error);
+      },
+    );
+  }
+}
+
+// Configuration for local development
+const DATA_API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5133';
+const AI_API_URL = import.meta.env.VITE_AI_URL || 'http://127.0.0.1:8000';
+
+export const dataAxiosClient = new AxiosClientService(DATA_API_URL).axiosInstance;
+export const pythonAxiosClient = new AxiosClientService(AI_API_URL).axiosInstance;
+
+// Keep default export for backward compatibility if needed
+export const axiosClient = dataAxiosClient;
