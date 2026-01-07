@@ -68,7 +68,7 @@ export interface BoundingBox {
 })
 export default class GeospatialMapper extends Vue {
   @Prop({ default: null })
-  geospatialData!: DatasetGeospatialDataDto | null;
+  public geospatialData!: DatasetGeospatialDataDto | null;
 
   declare $refs: {
     mapElement: HTMLDivElement;
@@ -76,11 +76,11 @@ export default class GeospatialMapper extends Vue {
 
   private mapView: MapView | null = null;
 
-  get boundingBox(): string | null | undefined {
+  public get boundingBox(): string | null | undefined {
     return this.geospatialData?.boundingBox;
   }
 
-  get parsedBox(): BoundingBox {
+  public get parsedBox(): BoundingBox {
     return this.parseBoundingBox(this.boundingBox || '');
   }
 
@@ -127,20 +127,20 @@ export default class GeospatialMapper extends Vue {
     }
   }
 
-  mounted(): void {
+  public mounted(): void {
     if (this.boundingBox) {
       this.initializeMap();
     }
   }
 
   @Watch('boundingBox')
-  onBoundingBoxChange(newVal: string | null | undefined): void {
+  public onBoundingBoxChange(newVal: string | null | undefined): void {
     if (newVal && !this.mapView) {
       this.initializeMap();
     }
   }
 
-  formatDate(dateString: string): string {
+  public formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',

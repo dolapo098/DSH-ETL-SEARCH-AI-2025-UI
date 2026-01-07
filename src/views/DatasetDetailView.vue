@@ -79,11 +79,16 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-facing-decorator';
+import { namespace } from '@/store/decorators';
+import { Modules } from '@/store/ModuleTypes';
 import GeospatialMapper from '@/components/GeospatialMapper.vue';
 import ResourceManager from '@/components/ResourceManager.vue';
 import DocumentList from '@/components/DocumentList.vue';
 import ConnectivityWeb from '@/components/ConnectivityWeb.vue';
 import type { DatasetFullDetailsDto } from '@/models/dto.types';
+import { DatasetsState } from '@/store/modules/datasets/types';
+
+const Datasets = namespace(Modules.Datasets);
 
 @Component({
   name: 'DatasetDetailView',
@@ -95,22 +100,24 @@ import type { DatasetFullDetailsDto } from '@/models/dto.types';
   }
 })
 export default class DatasetDetailView extends Vue {
-  activeTab = 'geospatial';
-  dataset: DatasetFullDetailsDto | null = null;
+  // --- Namespaced State ---
+  @Datasets.State((s: DatasetsState) => s.selectedDataset) public readonly dataset!: DatasetFullDetailsDto | null;
+  @Datasets.State((s: DatasetsState) => s.isLoading) public readonly isLoading!: boolean;
+  @Datasets.State((s: DatasetsState) => s.error) public readonly error!: string | null;
 
-  get identifier(): string {
+  // --- Namespaced Actions ---
+  @Datasets.Action('FETCH_DATASET') 
+  public fetchDatasetAction!: (id: string) => Promise<DatasetFullDetailsDto | null>;
+
+  // --- Local State ---
+  private activeTab: string = 'geospatial';
+
+  // --- Getters ---
+  private get identifier(): string {
     return this.$route.params.id as string;
   }
 
-  get isLoading(): boolean {
-    return this.$store.state.datasets.isLoading;
-  }
-
-  get error(): string | null {
-    return this.$store.state.datasets.error;
-  }
-
-  get tabs() {
+  public get tabs() {
     return [
       {
         id: 'geospatial',
@@ -138,18 +145,19 @@ export default class DatasetDetailView extends Vue {
     ];
   }
 
-  async mounted(): Promise<void> {
+  // --- Lifecycle Hooks ---
+  public async mounted(): Promise<void> {
     await this.loadDataset();
   }
 
-  async loadDataset(): Promise<void> {
-    const result = await this.$store.dispatch('datasets/FETCH_DATASET', this.identifier);
-    if (result) {
-      this.dataset = result;
+  // --- Methods ---
+  private async loadDataset(): Promise<void> {
+    if (this.identifier) {
+      await this.fetchDatasetAction(this.identifier);
     }
   }
 
-  formatDate(dateString: string): string {
+  public formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -157,7 +165,7 @@ export default class DatasetDetailView extends Vue {
     });
   }
 
-  goToSearch(): void {
+  public goToSearch(): void {
     this.$router.push('/search');
   }
 }

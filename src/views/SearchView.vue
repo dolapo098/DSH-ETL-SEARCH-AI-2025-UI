@@ -66,6 +66,26 @@
               <span class="result-identifier">ID: {{ result.identifier }}</span>
             </div>
           </div>
+
+          <div v-if="totalPages > 1" class="pagination-container">
+            <button 
+              class="page-btn" 
+              :disabled="currentPage === 1 || isLoading"
+              @click="changePage(currentPage - 1)"
+            >
+              &laquo; Previous
+            </button>
+            <div class="page-info">
+              Page {{ currentPage }} of {{ totalPages }}
+            </div>
+            <button 
+              class="page-btn" 
+              :disabled="currentPage === totalPages || isLoading"
+              @click="changePage(currentPage + 1)"
+            >
+              Next &raquo;
+            </button>
+          </div>
         </div>
       </main>
     </div>
@@ -74,48 +94,60 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-facing-decorator';
+import { namespace } from '@/store/decorators';
+import { Modules } from '@/store/ModuleTypes';
+import { SearchMutationTypes, SearchActionTypes } from '@/store/modules/search/types';
+import { SearchResultItem } from '@/models/index';
+import { SearchState } from '@/store/modules/search/types';
+
+const Search = namespace(Modules.Search);
 
 @Component({
   name: 'SearchView'
 })
 export default class SearchView extends Vue {
-  localQuery = '';
+  // --- Local State ---
+  private localQuery: string = '';
 
-  get query(): string {
-    return this.$store.state.search.query;
-  }
+  // --- Namespaced State ---
+  @Search.State((s: SearchState) => s.query) public readonly query!: string;
+  @Search.State((s: SearchState) => s.results) public readonly results!: SearchResultItem[];
+  @Search.State((s: SearchState) => s.isLoading) public readonly isLoading!: boolean;
+  @Search.State((s: SearchState) => s.error) public readonly error!: string | null;
+  @Search.State((s: SearchState) => s.totalCount) public readonly totalCount!: number;
+  @Search.State((s: SearchState) => s.currentPage) public readonly currentPage!: number;
+  @Search.State((s: SearchState) => s.totalPages) public readonly totalPages!: number;
+  @Search.State((s: SearchState) => s.pageSize) public readonly pageSize!: number;
 
-  get results() {
-    return this.$store.state.search.results;
-  }
+  // --- Namespaced Actions & Mutations ---
+  @Search.Action(SearchActionTypes.PERFORM_SEARCH) 
+  public performSearchAction!: (payload: { query?: string; page?: number }) => Promise<void>;
 
-  get isLoading(): boolean {
-    return this.$store.state.search.isLoading;
-  }
+  @Search.Mutation(SearchMutationTypes.SET_QUERY) 
+  public setQueryMutation!: (query: string) => void;
 
-  get error(): string | null {
-    return this.$store.state.search.error;
-  }
-
-  get totalCount(): number {
-    return this.$store.state.search.totalCount;
-  }
-
-  mounted(): void {
+  // --- Lifecycle Hooks ---
+  public mounted(): void {
     this.localQuery = this.query;
     if (this.query) {
       this.performSearch();
     }
   }
 
-  performSearch(): void {
+  // --- Methods ---
+  public performSearch(): void {
     if (this.localQuery.trim()) {
-      this.$store.commit('search/SET_QUERY', this.localQuery);
-      this.$store.dispatch('search/PERFORM_SEARCH', { query: this.localQuery });
+      this.setQueryMutation(this.localQuery);
+      this.performSearchAction({ query: this.localQuery, page: 1 });
     }
   }
 
-  viewDataset(identifier: string): void {
+  public changePage(page: number): void {
+    this.performSearchAction({ page });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  public viewDataset(identifier: string): void {
     this.$router.push(`/dataset/${identifier}`);
   }
 }
@@ -339,6 +371,47 @@ export default class SearchView extends Vue {
   font-size: 0.8125rem;
   color: #9ca3af;
   font-family: monospace;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.page-btn {
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  color: #3b82f6;
+  background: transparent;
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 120px;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: #3b82f6;
+  color: white;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  border-color: #e2e8f0;
+  color: #a0aec0;
+}
+
+.page-info {
+  font-weight: 600;
+  color: #4a5568;
 }
 
 @media (max-width: 640px) {

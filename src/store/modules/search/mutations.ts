@@ -15,10 +15,14 @@ export const mutations: MutationTree<SearchState> = {
     results: SearchResultItem[];
     totalCount: number;
     totalPages: number;
+    currentPage?: number;
   }) {
     state.results = payload.results;
     state.totalCount = payload.totalCount;
     state.totalPages = payload.totalPages;
+    if (payload.currentPage !== undefined) {
+      state.currentPage = payload.currentPage;
+    }
   },
 
   [SearchMutationTypes.SET_LOADING](state, isLoading: boolean) {

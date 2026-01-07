@@ -34,7 +34,7 @@ import { Vue, Component } from 'vue-facing-decorator';
   name: 'App'
 })
 export default class App extends Vue {
-  get isSearchPage(): boolean {
+  public get isSearchPage(): boolean {
     return this.$route.name === 'Search';
   }
 }

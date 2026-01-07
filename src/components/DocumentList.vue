@@ -52,7 +52,7 @@ import { SupportingDocumentDto } from '@/models/dto.types';
 })
 export default class DocumentList extends Vue {
   @Prop({ default: () => [] })
-  supportingDocuments!: SupportingDocumentDto[];
+  public supportingDocuments!: SupportingDocumentDto[];
 }
 </script>
 

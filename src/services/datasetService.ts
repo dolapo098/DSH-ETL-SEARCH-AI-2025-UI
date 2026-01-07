@@ -12,22 +12,33 @@ import {
 export class DatasetService {
   /**
    * Performs a semantic search directly via the Python AI Service.
-   * Endpoint: POST http://localhost:8000/search/semantic
+   * Division of Labor: AI handles the semantic vector search.
+   * Endpoint: POST http://127.0.0.1:8000/search/semantic
    */
-  public async searchDatasets(query: string): Promise<SearchResultItem[]> {
+  public async searchDatasets(query: string, page: number = 1, pageSize: number = 10): Promise<{ results: SearchResultItem[], totalCount: number }> {
     try {
-      const response = await pythonAxiosClient.post<{ results: any[], count: number }>(
+      const offset = (page - 1) * pageSize;
+      const response = await pythonAxiosClient.post<{ results: any[], total_count: number }>(
         '/search/semantic',
-        { query: query }
+        { 
+          query: query,
+          limit: pageSize,
+          offset: offset
+        }
       );
       
       // Map to our frontend model
-      return response.data.results.map(r => new SearchResultItem({
+      const results = response.data.results.map(r => new SearchResultItem({
         identifier: r.identifier,
         title: r.title,
         description: r.description,
         score: r.score
       }));
+
+      return {
+        results,
+        totalCount: response.data.total_count
+      };
     } catch (error: any) {
       throw error.response?.data || error.message || 'Failed to perform semantic search';
     }

@@ -25,9 +25,14 @@ export class AxiosClientService {
   }
 }
 
-// Configuration for local development
-const DATA_API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5133';
-const AI_API_URL = import.meta.env.VITE_AI_URL || 'http://127.0.0.1:8000';
+// Configuration strictly driven by environment variables with safety fallbacks
+const DATA_API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5133';
+const AI_API_URL = import.meta.env.VITE_AI_URL || 'http://localhost:8001';
+
+if (import.meta.env.DEV) {
+  console.log('🔌 UI Connecting to Data API at:', DATA_API_URL);
+  console.log('🧠 UI Connecting to AI Service at:', AI_API_URL);
+}
 
 export const dataAxiosClient = new AxiosClientService(DATA_API_URL).axiosInstance;
 export const pythonAxiosClient = new AxiosClientService(AI_API_URL).axiosInstance;

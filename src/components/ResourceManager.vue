@@ -57,7 +57,7 @@ import { DataFileDto } from '@/models/dto.types';
 })
 export default class ResourceManager extends Vue {
   @Prop({ default: () => [] })
-  dataFiles!: DataFileDto[];
+  public dataFiles!: DataFileDto[];
 }
 </script>
 

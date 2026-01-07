@@ -83,9 +83,9 @@ import { DatasetRelationshipDto } from '@/models/dto.types';
 })
 export default class ConnectivityWeb extends Vue {
   @Prop({ default: () => [] })
-  relationships!: DatasetRelationshipDto[];
+  public readonly relationships!: DatasetRelationshipDto[];
 
-  get uniqueTypes(): string[] {
+  public get uniqueTypes(): string[] {
     const types = this.relationships
       .map(r => r.relationshipType)
       .filter((type): type is string => type !== null && type !== undefined);

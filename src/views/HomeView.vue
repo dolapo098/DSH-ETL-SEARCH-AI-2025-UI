@@ -26,7 +26,7 @@
             <button
               v-for="example in exampleQueries"
               :key="example"
-              @click="searchQuery = example; handleSearch()"
+              @click="setExampleQuery(example)"
               class="example-chip"
             >
               {{ example }}
@@ -83,25 +83,41 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-facing-decorator';
+import { namespace } from '@/store/decorators';
+import { Modules } from '@/store/ModuleTypes';
+import { SearchMutationTypes } from '@/store/modules/search/types';
+
+const Search = namespace(Modules.Search);
 
 @Component({
   name: 'HomeView'
 })
 export default class HomeView extends Vue {
-  searchQuery = '';
+  // --- Local State ---
+  private searchQuery: string = '';
 
-  exampleQueries: string[] = [
+  private exampleQueries: string[] = [
     'water quality datasets',
     'air pollution monitoring',
     'coastal erosion data',
     'climate change indicators'
   ];
 
-  handleSearch(): void {
+  // --- Namespaced Mutations ---
+  @Search.Mutation(SearchMutationTypes.SET_QUERY) 
+  public setQueryMutation!: (query: string) => void;
+
+  // --- Methods ---
+  public handleSearch(): void {
     if (this.searchQuery.trim()) {
-      this.$store.commit('search/SET_QUERY', this.searchQuery);
+      this.setQueryMutation(this.searchQuery);
       this.$router.push('/search');
     }
+  }
+
+  public setExampleQuery(query: string): void {
+    this.searchQuery = query;
+    this.handleSearch();
   }
 }
 </script>
