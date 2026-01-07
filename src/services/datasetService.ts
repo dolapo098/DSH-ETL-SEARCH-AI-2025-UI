@@ -11,18 +11,18 @@ import {
  */
 export class DatasetService {
   /**
-   * Performs a semantic search via the .NET Core API (Proxy to Python AI).
-   * Endpoint: POST http://localhost:5133/api/Search/semantic
+   * Performs a semantic search directly via the Python AI Service.
+   * Endpoint: POST http://localhost:8000/search/semantic
    */
   public async searchDatasets(query: string): Promise<SearchResultItem[]> {
     try {
-      const response = await dataAxiosClient.post<any[]>(
-        '/api/Search/semantic',
+      const response = await pythonAxiosClient.post<{ results: any[], count: number }>(
+        '/search/semantic',
         { query: query }
       );
       
       // Map to our frontend model
-      return response.data.map(r => new SearchResultItem({
+      return response.data.results.map(r => new SearchResultItem({
         identifier: r.identifier,
         title: r.title,
         description: r.description,
