@@ -56,6 +56,13 @@ import WebMap from '@arcgis/core/WebMap';
 import Graphic from '@arcgis/core/Graphic';
 import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
 
+export interface BoundingBox {
+  west: number;
+  east: number;
+  south: number;
+  north: number;
+}
+
 @Component({
   name: 'GeospatialMapper'
 })
@@ -73,22 +80,50 @@ export default class GeospatialMapper extends Vue {
     return this.geospatialData?.boundingBox;
   }
 
-  get parsedBox(): { west: number; east: number; south: number; north: number } {
-    if (!this.boundingBox) {
-      return { west: 0, east: 0, south: 0, north: 0 };
-    }
+  get parsedBox(): BoundingBox {
+    return this.parseBoundingBox(this.boundingBox || '');
+  }
+
+  private parseBoundingBox(input: string): BoundingBox {
+    const defaultBox: BoundingBox = { west: 0, east: 0, south: 0, north: 0 };
+    if (!input) return defaultBox;
 
     try {
-      const box = JSON.parse(this.boundingBox);
+      const trimmed = input.trim();
+
+      // 1. Handle JSON format
+      if (trimmed.startsWith('{')) {
+        const box = JSON.parse(trimmed);
+        return {
+          west: parseFloat(box.west || box.westBoundLongitude || 0),
+          east: parseFloat(box.east || box.eastBoundLongitude || 0),
+          south: parseFloat(box.south || box.southBoundLatitude || 0),
+          north: parseFloat(box.north || box.northBoundLatitude || 0)
+        };
+      }
+
+      // 2. Handle XML format using DOMParser (Standard Browser API)
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(trimmed, "text/xml");
+
+      const getValue = (tagName: string): number => {
+        // getElementsByTagName is robust against XML namespaces (e.g. gmd:westBoundLongitude)
+        const elements = xmlDoc.getElementsByTagName(tagName);
+        if (elements.length > 0 && elements[0].textContent) {
+          return parseFloat(elements[0].textContent.trim());
+        }
+        return 0;
+      };
+
       return {
-        west: box.west || box.westBoundLongitude || 0,
-        east: box.east || box.eastBoundLongitude || 0,
-        south: box.south || box.southBoundLatitude || 0,
-        north: box.north || box.northBoundLatitude || 0
+        west: getValue('westBoundLongitude'),
+        east: getValue('eastBoundLongitude'),
+        south: getValue('southBoundLatitude'),
+        north: getValue('northBoundLatitude')
       };
     } catch (e) {
-      console.error('Failed to parse bounding box:', e);
-      return { west: 0, east: 0, south: 0, north: 0 };
+      console.error('GeospatialMapper: Error parsing bounding box', e);
+      return defaultBox;
     }
   }
 
