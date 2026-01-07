@@ -48,13 +48,6 @@ src/
 3. **Type Safety**: Full TypeScript coverage with strict typing
 4. **Modular Store**: Vuex modules organized by feature (search, datasets, ui)
 
-### Design Patterns
-
-- **Module Pattern**: Feature-based Vuex organization
-- **Singleton Pattern**: Service layer (e.g., SupabaseService)
-- **Repository Pattern**: Data access abstraction
-- **Observer Pattern**: Reactive state management via Vuex
-
 ## 🛠️ Technology Stack
 
 - **Vue 3.4**: Progressive framework with Composition API
@@ -63,7 +56,6 @@ src/
 - **Vue Router 4.2**: Client-side routing
 - **Vite 5.4**: Next-generation build tool
 - **Axios 1.6**: HTTP client
-- **Supabase**: Backend as a Service
 
 ## 🚀 Getting Started
 
@@ -136,8 +128,8 @@ npm run build
 
 Create `.env`:
 ```
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_API_URL=http://localhost:5133
+VITE_AI_URL=http://localhost:8000
 ```
 
 ## 📊 Build Output
@@ -166,7 +158,6 @@ Full inline documentation available in source files with:
 
 - Full search component implementation (SearchBar, Filters, Cards)
 - Service layer completion (SearchService, DatasetService)
-- Vector embedding integration with Supabase
 - Conversational AI chat interface
 - Advanced filtering and faceted search
 - Real-time search suggestions

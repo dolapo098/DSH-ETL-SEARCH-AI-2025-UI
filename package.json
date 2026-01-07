@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@arcgis/core": "^4.34.8",
-    "@supabase/supabase-js": "^2.39.0",
     "axios": "^1.6.2",
     "vue": "^3.4.38",
     "vue-facing-decorator": "^4.0.1",
