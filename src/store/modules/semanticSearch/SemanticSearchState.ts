@@ -1,4 +1,4 @@
-import { SearchState } from './types';
+import { SearchState } from './SemanticSearchTypes';
 
 export const state: SearchState = {
   query: '',

@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
-import { DatasetsState } from './types';
-import { RootState } from '@/store/types';
+import { DatasetsState } from './DatasetMetadataTypes';
+import { RootState } from '@/store/StoreTypes';
 
 export const getters: GetterTree<DatasetsState, RootState> = {
   getDatasetById: (state) => (id: string) => {

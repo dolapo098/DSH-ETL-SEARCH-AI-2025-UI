@@ -1,4 +1,4 @@
-import { UIState } from './types';
+import { UIState } from './UIShellTypes';
 
 export const state: UIState = {
   notifications: []

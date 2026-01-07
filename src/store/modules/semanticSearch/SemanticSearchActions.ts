@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
-import { SearchState, SearchActionTypes, SearchMutationTypes } from './types';
-import { RootState } from '@/store/types';
+import { SearchState, SearchActionTypes, SearchMutationTypes } from './SemanticSearchTypes';
+import { RootState } from '@/store/StoreTypes';
 import { datasetService } from '@/services/datasetService';
 
 export const actions: ActionTree<SearchState, RootState> = {

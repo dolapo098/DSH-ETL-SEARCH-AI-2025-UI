@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
-import { SearchState } from './types';
-import { RootState } from '@/store/types';
+import { SearchState } from './SemanticSearchTypes';
+import { RootState } from '@/store/StoreTypes';
 
 export const getters: GetterTree<SearchState, RootState> = {
   hasResults: (state): boolean => {

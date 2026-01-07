@@ -79,16 +79,16 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-facing-decorator';
-import { namespace } from '@/store/decorators';
-import { Modules } from '@/store/ModuleTypes';
+import { namespace } from '@/store/StoreDecorators';
+import { Modules } from '@/store/StoreModuleTypes';
 import GeospatialMapper from '@/components/GeospatialMapper.vue';
 import ResourceManager from '@/components/ResourceManager.vue';
 import DocumentList from '@/components/DocumentList.vue';
 import ConnectivityWeb from '@/components/ConnectivityWeb.vue';
 import type { DatasetFullDetailsDto } from '@/models/dto.types';
-import { DatasetsState } from '@/store/modules/datasets/types';
+import { DatasetsState } from '@/store/modules/datasetMetadata/DatasetMetadataTypes';
 
-const Datasets = namespace(Modules.Datasets);
+const DatasetMetadata = namespace(Modules.DatasetMetadata);
 
 @Component({
   name: 'DatasetDetailView',
@@ -101,12 +101,12 @@ const Datasets = namespace(Modules.Datasets);
 })
 export default class DatasetDetailView extends Vue {
   // --- Namespaced State ---
-  @Datasets.State((s: DatasetsState) => s.selectedDataset) public readonly dataset!: DatasetFullDetailsDto | null;
-  @Datasets.State((s: DatasetsState) => s.isLoading) public readonly isLoading!: boolean;
-  @Datasets.State((s: DatasetsState) => s.error) public readonly error!: string | null;
+  @DatasetMetadata.State((s: DatasetsState) => s.selectedDataset) public readonly dataset!: DatasetFullDetailsDto | null;
+  @DatasetMetadata.State((s: DatasetsState) => s.isLoading) public readonly isLoading!: boolean;
+  @DatasetMetadata.State((s: DatasetsState) => s.error) public readonly error!: string | null;
 
   // --- Namespaced Actions ---
-  @Datasets.Action('FETCH_DATASET') 
+  @DatasetMetadata.Action('FETCH_DATASET') 
   public fetchDatasetAction!: (id: string) => Promise<DatasetFullDetailsDto | null>;
 
   // --- Local State ---

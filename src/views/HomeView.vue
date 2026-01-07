@@ -1,5 +1,9 @@
 <template>
   <div class="home-view">
+    <section class="etl-section">
+      <EtlControls />
+    </section>
+
     <section class="hero-section">
       <div class="hero-content">
         <h1 class="hero-title">Discover Environmental Datasets</h1>
@@ -65,11 +69,11 @@
     <section class="stats-section">
       <div class="stats-grid">
         <div class="stat-item">
-          <div class="stat-number">1,250+</div>
+          <div class="stat-number">{{ stats?.totalDatasets || '0' }}</div>
           <div class="stat-label">Datasets</div>
         </div>
         <div class="stat-item">
-          <div class="stat-number">50+</div>
+          <div class="stat-number">{{ stats?.totalProviders || '0' }}</div>
           <div class="stat-label">Data Providers</div>
         </div>
         <div class="stat-item">
@@ -83,14 +87,18 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-facing-decorator';
-import { namespace } from '@/store/decorators';
-import { Modules } from '@/store/ModuleTypes';
-import { SearchMutationTypes } from '@/store/modules/search/types';
+import { namespace } from '@/store/StoreDecorators';
+import { Modules } from '@/store/StoreModuleTypes';
+import { SearchMutationTypes } from '@/store/modules/semanticSearch/SemanticSearchTypes';
+import { DatasetActionTypes, DiscoveryStats } from '@/store/modules/datasetMetadata/DatasetMetadataTypes';
+import EtlControls from '@/components/EtlControls.vue';
 
-const Search = namespace(Modules.Search);
+const SemanticSearch = namespace(Modules.SemanticSearch);
+const DatasetMetadata = namespace(Modules.DatasetMetadata);
 
 @Component({
-  name: 'HomeView'
+  name: 'HomeView',
+  components: { EtlControls }
 })
 export default class HomeView extends Vue {
   // --- Local State ---
@@ -103,9 +111,20 @@ export default class HomeView extends Vue {
     'climate change indicators'
   ];
 
-  // --- Namespaced Mutations ---
-  @Search.Mutation(SearchMutationTypes.SET_QUERY) 
+  // --- Namespaced Mutations & Actions ---
+  @SemanticSearch.Mutation(SearchMutationTypes.SET_QUERY) 
   public setQueryMutation!: (query: string) => void;
+
+  @DatasetMetadata.Action(DatasetActionTypes.FETCH_STATS)
+  public fetchStatsAction!: () => Promise<void>;
+
+  @DatasetMetadata.State((s: any) => s.stats)
+  public readonly stats!: DiscoveryStats | null;
+
+  // --- Lifecycle Hooks ---
+  public async mounted(): Promise<void> {
+    await this.fetchStatsAction();
+  }
 
   // --- Methods ---
   public handleSearch(): void {
@@ -285,6 +304,12 @@ export default class HomeView extends Vue {
   padding: 3rem 2rem;
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.etl-section {
+  margin: 0 0 2rem 0;
+  display: flex;
+  justify-content: center;
 }
 
 .stats-grid {

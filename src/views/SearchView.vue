@@ -94,13 +94,13 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-facing-decorator';
-import { namespace } from '@/store/decorators';
-import { Modules } from '@/store/ModuleTypes';
-import { SearchMutationTypes, SearchActionTypes } from '@/store/modules/search/types';
+import { namespace } from '@/store/StoreDecorators';
+import { Modules } from '@/store/StoreModuleTypes';
+import { SearchMutationTypes, SearchActionTypes } from '@/store/modules/semanticSearch/SemanticSearchTypes';
 import { SearchResultItem } from '@/models/index';
-import { SearchState } from '@/store/modules/search/types';
+import { SearchState } from '@/store/modules/semanticSearch/SemanticSearchTypes';
 
-const Search = namespace(Modules.Search);
+const Search = namespace(Modules.SemanticSearch);
 
 @Component({
   name: 'SearchView'

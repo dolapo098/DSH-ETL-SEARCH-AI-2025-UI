@@ -2,7 +2,8 @@ import { dataAxiosClient, pythonAxiosClient } from './axiosClient';
 import { 
   SearchResultItem, 
   DatasetFullDetailsDto,
-  DatasetMetadataResultDto 
+  DatasetMetadataResultDto,
+  ProcessResultDto 
 } from '../models/dto.types';
 
 /**
@@ -72,6 +73,50 @@ export class DatasetService {
       return response.data.map(d => new DatasetMetadataResultDto(d));
     } catch (error: any) {
       throw error.response?.data || error.message || 'Failed to fetch datasets';
+    }
+  }
+  /**
+   * Fetches statistics from the .NET Core API.
+   * Endpoint: GET http://localhost:5133/api/Search/stats
+   */
+  public async getStats(): Promise<{ totalDatasets: number, totalProviders: number }> {
+    try {
+      const response = await dataAxiosClient.get<{ totalDatasets: number, totalProviders: number }>(
+        '/api/Search/stats'
+      );
+      return response.data;
+    } catch (error: any) {
+      throw error.response?.data || error.message || 'Failed to fetch statistics';
+    }
+  }
+
+  /**
+   * Triggers ETL processing for all datasets.
+   * Endpoint: POST http://localhost:5133/api/Etl/process-all
+   */
+  public async processAllDatasets(): Promise<ProcessResultDto> {
+    try {
+      const response = await dataAxiosClient.post<ProcessResultDto>(
+        '/api/Etl/process-all'
+      );
+      return new ProcessResultDto(response.data);
+    } catch (error: any) {
+      throw error.response?.data || error.message || 'Failed to start processing all datasets';
+    }
+  }
+
+  /**
+   * Triggers ETL processing for a specific dataset identifier.
+   * Endpoint: POST http://localhost:5133/api/Etl/process/{identifier}
+   */
+  public async processDataset(identifier: string): Promise<ProcessResultDto> {
+    try {
+      const response = await dataAxiosClient.post<ProcessResultDto>(
+        `/api/Etl/process/${identifier}`
+      );
+      return new ProcessResultDto(response.data);
+    } catch (error: any) {
+      throw error.response?.data || error.message || 'Failed to start processing this dataset';
     }
   }
 }

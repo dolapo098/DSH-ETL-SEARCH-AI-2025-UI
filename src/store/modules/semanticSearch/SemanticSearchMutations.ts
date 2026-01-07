@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex';
-import { SearchState, SearchMutationTypes } from './types';
+import { SearchState, SearchMutationTypes } from './SemanticSearchTypes';
 import { SearchResultItem, SearchSuggestion, SearchFilters } from '@/models/index';
 
 export const mutations: MutationTree<SearchState> = {

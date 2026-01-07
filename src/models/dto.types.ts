@@ -100,6 +100,30 @@ export class RawMetadataDocumentDto {
   }
 }
 
+export class DiscoveryStatsDto {
+  totalDatasets: number = 0;
+  totalProviders: number = 0;
+
+  constructor(data?: Partial<DiscoveryStatsDto>) {
+    if (data) {
+      Object.assign(this, data);
+    }
+  }
+}
+
+export class ProcessResultDto {
+  isSuccess: boolean = true;
+  message: string = '';
+  filePath?: string | null;
+  error?: string | null;
+
+  constructor(data?: Partial<ProcessResultDto>) {
+    if (data) {
+      Object.assign(this, data);
+    }
+  }
+}
+
 export class DatasetFullDetailsDto {
   datasetMetadata: DatasetMetadataResultDto;
   geospatialData: DatasetGeospatialDataDto | null = null;
