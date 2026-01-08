@@ -18,8 +18,9 @@
             placeholder="Search for datasets... (e.g., 'water quality data')"
             class="search-input"
             @keyup.enter="handleSearch"
+            data-cy="home-search-input"
           />
-          <button @click="handleSearch" class="search-button">
+          <button @click="handleSearch" class="search-button" data-cy="home-search-button">
             Search
           </button>
         </div>
@@ -32,6 +33,7 @@
               :key="example"
               @click="setExampleQuery(example)"
               class="example-chip"
+              data-cy="home-search-example"
             >
               {{ example }}
             </button>
@@ -68,15 +70,15 @@
 
     <section class="stats-section">
       <div class="stats-grid">
-        <div class="stat-item">
+        <div class="stat-item" data-cy="home-stat-datasets">
           <div class="stat-number">{{ stats?.totalDatasets || '0' }}</div>
           <div class="stat-label">Datasets</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" data-cy="home-stat-providers">
           <div class="stat-number">{{ stats?.totalProviders || '0' }}</div>
           <div class="stat-label">Data Providers</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" data-cy="home-stat-categories">
           <div class="stat-number">15+</div>
           <div class="stat-label">Categories</div>
         </div>

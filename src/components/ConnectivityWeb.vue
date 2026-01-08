@@ -1,18 +1,19 @@
 <template>
-  <div class="connectivity-web">
+  <div class="connectivity-web" data-cy="connectivity-web">
     <h3 class="section-title">Dataset Relationships</h3>
     <p class="section-subtitle">Scientific connections and related research</p>
 
-    <div v-if="!relationships || relationships.length === 0" class="no-data">
+    <div v-if="!relationships || relationships.length === 0" class="no-data" data-cy="connectivity-empty">
       <p>No relationships found for this dataset</p>
     </div>
 
-    <div v-else class="relationships-container">
+    <div v-else class="relationships-container" data-cy="connectivity-container">
       <div class="relationships-list">
         <div
           v-for="rel in relationships"
           :key="rel.datasetRelationshipID"
           class="relationship-card"
+          data-cy="relationship-card"
         >
           <div class="relationship-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

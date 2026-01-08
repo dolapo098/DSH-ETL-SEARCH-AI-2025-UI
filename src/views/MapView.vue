@@ -1,5 +1,5 @@
 <template>
-  <div class="map-view">
+  <div class="map-view" data-cy="map-view">
     <div class="map-header">
       <h1 class="map-title">Dataset Coverage Map</h1>
       <p class="map-subtitle">Explore geographic extent of environmental datasets</p>
@@ -11,18 +11,21 @@
         <div class="filter-buttons">
           <button
             :class="['filter-btn', { active: statusFilter === 'all' }]"
+            data-cy="map-filter-all"
             @click="statusFilter = 'all'"
           >
             All
           </button>
           <button
             :class="['filter-btn', { active: statusFilter === 'onGoing' }]"
+            data-cy="map-filter-ongoing"
             @click="statusFilter = 'onGoing'"
           >
             Ongoing
           </button>
           <button
             :class="['filter-btn', { active: statusFilter === 'completed' }]"
+            data-cy="map-filter-completed"
             @click="statusFilter = 'completed'"
           >
             Completed
@@ -30,7 +33,7 @@
         </div>
       </div>
 
-      <div class="legend">
+      <div class="legend" data-cy="map-legend">
         <div class="legend-item">
           <span class="legend-color ongoing"></span>
           <span>Ongoing</span>
@@ -42,11 +45,11 @@
       </div>
     </div>
 
-    <div class="map-container">
-      <div ref="mapElement" class="map"></div>
+    <div class="map-container" data-cy="map-container">
+      <div ref="mapElement" class="map" data-cy="map-canvas"></div>
     </div>
 
-    <div class="dataset-info">
+    <div class="dataset-info" data-cy="map-dataset-info">
       <p class="info-text">
         Showing <strong>{{ filteredDatasets.length }}</strong> of <strong>{{ allDatasets.length }}</strong> datasets
       </p>

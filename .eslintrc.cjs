@@ -37,11 +37,9 @@ module.exports = {
     'vue/attribute-hyphenation': 'off',
     'import/no-unresolved': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'padding-line-between-statements': [
-      'error',
-      { blankLine: 'always', prev: '*', next: 'return' },
-      { blankLine: 'always', prev: ['const', 'let', 'var'], next: 'if' }
-    ]
+    'padding-line-between-statements': 'off',
+    'quotes': ['error', 'double', { 'avoidEscape': true }],
+    'indent': ['error', 'tab']
   }
 };
 

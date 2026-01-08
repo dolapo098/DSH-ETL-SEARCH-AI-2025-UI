@@ -1,11 +1,12 @@
 <template>
-  <div class="etl-panel">
+  <div class="etl-panel" data-cy="etl-panel">
     <h3 class="etl-title">ETL Controls</h3>
 
     <div class="etl-actions">
       <button
         class="etl-button primary"
         :disabled="isProcessingAll"
+        data-cy="etl-process-all"
         @click="processAll"
       >
         {{ isProcessingAll ? 'Processing all…' : 'Process All Datasets' }}
@@ -18,20 +19,22 @@
         class="etl-input"
         placeholder="Dataset identifier"
         :disabled="isProcessingOne"
+        data-cy="etl-identifier-input"
       />
       <button
         class="etl-button"
         :disabled="isProcessingOne || !identifier"
+        data-cy="etl-process-one"
         @click="processOne"
       >
         {{ isProcessingOne ? 'Processing…' : 'Process Identifier' }}
       </button>
     </div>
 
-    <p v-if="validationMessage" class="etl-message warning">
+    <p v-if="validationMessage" class="etl-message warning" data-cy="etl-validation-message">
       {{ validationMessage }}
     </p>
-    <p v-if="processMessage" class="etl-message info">
+    <p v-if="processMessage" class="etl-message info" data-cy="etl-process-message">
       {{ processMessage }}
     </p>
   </div>

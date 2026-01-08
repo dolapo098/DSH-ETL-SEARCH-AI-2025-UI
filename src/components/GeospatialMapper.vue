@@ -1,13 +1,13 @@
 <template>
-  <div class="geospatial-mapper">
+  <div class="geospatial-mapper" data-cy="geospatial-mapper">
     <h3 class="section-title">Geographic Extent</h3>
 
     <div v-if="!boundingBox" class="no-data">
       <p>No geospatial data available for this dataset</p>
     </div>
 
-    <div v-else class="map-container">
-      <div ref="mapElement" class="map"></div>
+    <div v-else class="map-container" data-cy="geospatial-map-container">
+      <div ref="mapElement" class="map" data-cy="geospatial-map"></div>
 
       <div class="coordinates-info">
         <h4>Bounding Box Coordinates</h4>

@@ -1,9 +1,9 @@
 <template>
-  <div class="document-list">
+  <div class="document-list" data-cy="document-list">
     <h3 class="section-title">Supporting Documents</h3>
     <p class="section-subtitle">Documents used by the AI for search and analysis</p>
 
-    <div v-if="!supportingDocuments || supportingDocuments.length === 0" class="no-data">
+    <div v-if="!supportingDocuments || supportingDocuments.length === 0" class="no-data" data-cy="document-empty">
       <p>No supporting documents available for this dataset</p>
     </div>
 
@@ -12,6 +12,7 @@
         v-for="doc in supportingDocuments"
         :key="doc.supportingDocumentID"
         class="document-card"
+        data-cy="document-card"
       >
         <div class="document-header">
           <div class="document-icon">
@@ -33,10 +34,11 @@
             target="_blank"
             rel="noopener noreferrer"
             class="view-btn"
+            data-cy="document-view"
           >
             View Document
           </a>
-          <span v-else class="no-link">Not available</span>
+          <span v-else class="no-link" data-cy="document-unavailable">Not available</span>
         </div>
       </div>
     </div>

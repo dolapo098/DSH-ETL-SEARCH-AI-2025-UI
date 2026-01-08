@@ -12,7 +12,7 @@
       <button @click="goToSearch" class="back-btn">Back to Search</button>
     </div>
 
-    <div v-else-if="dataset" class="dataset-content">
+    <div v-else-if="dataset" class="dataset-content" data-cy="dataset-content">
       <div class="breadcrumb">
         <router-link to="/">Home</router-link>
         <span class="separator">›</span>
@@ -42,12 +42,13 @@
       </div>
 
       <div class="tabs-container">
-        <div class="tabs-header">
+        <div class="tabs-header" data-cy="dataset-tabs">
           <button
             v-for="tab in tabs"
             :key="tab.id"
             @click="activeTab = tab.id"
             :class="['tab-button', { active: activeTab === tab.id }]"
+            :data-cy="`dataset-tab-${tab.id}`"
           >
             <span class="tab-icon">{{ tab.icon }}</span>
             <span class="tab-label">{{ tab.label }}</span>
@@ -55,21 +56,21 @@
           </button>
         </div>
 
-        <div class="tab-content">
-          <div v-show="activeTab === 'geospatial'" class="tab-panel">
-            <GeospatialMapper :geospatialData="dataset.geospatialData" />
+        <div class="tab-content" data-cy="dataset-tab-content">
+          <div v-show="activeTab === 'geospatial'" class="tab-panel" data-cy="dataset-tab-geospatial">
+            <GeospatialMapper :geospatialData="dataset.geospatialData" data-cy="geospatial-mapper" />
           </div>
 
-          <div v-show="activeTab === 'resources'" class="tab-panel">
-            <ResourceManager :dataFiles="dataset.dataFiles" />
+          <div v-show="activeTab === 'resources'" class="tab-panel" data-cy="dataset-tab-resources">
+            <ResourceManager :dataFiles="dataset.dataFiles" data-cy="resource-manager" />
           </div>
 
-          <div v-show="activeTab === 'documents'" class="tab-panel">
-            <DocumentList :supportingDocuments="dataset.supportingDocuments" />
+          <div v-show="activeTab === 'documents'" class="tab-panel" data-cy="dataset-tab-documents">
+            <DocumentList :supportingDocuments="dataset.supportingDocuments" data-cy="document-list" />
           </div>
 
-          <div v-show="activeTab === 'relationships'" class="tab-panel">
-            <ConnectivityWeb :relationships="dataset.relationships" />
+          <div v-show="activeTab === 'relationships'" class="tab-panel" data-cy="dataset-tab-relationships">
+            <ConnectivityWeb :relationships="dataset.relationships" data-cy="connectivity-web" />
           </div>
         </div>
       </div>

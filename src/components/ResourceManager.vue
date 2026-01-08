@@ -1,8 +1,8 @@
 <template>
-  <div class="resource-manager">
+  <div class="resource-manager" data-cy="resource-manager">
     <h3 class="section-title">Dataset Resources</h3>
 
-    <div v-if="!dataFiles || dataFiles.length === 0" class="no-data">
+    <div v-if="!dataFiles || dataFiles.length === 0" class="no-data" data-cy="resource-empty">
       <p>No data files available for this dataset</p>
     </div>
 
@@ -11,6 +11,7 @@
         v-for="file in dataFiles"
         :key="file.dataFileID"
         class="resource-card"
+        data-cy="resource-card"
       >
         <div class="resource-icon">
           <svg
@@ -48,6 +49,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="download-btn"
+            data-cy="resource-download"
           >
             <svg
               viewBox="0 0 24 24"
@@ -61,7 +63,7 @@
             </svg>
             Download
           </a>
-          <span v-else class="no-download">Not available</span>
+          <span v-else class="no-download" data-cy="resource-no-download">Not available</span>
         </div>
       </div>
     </div>

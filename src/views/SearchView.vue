@@ -11,8 +11,9 @@
           placeholder="Search for datasets (e.g., water quality, climate data, coastal erosion...)"
           class="search-input"
           @keyup.enter="performSearch"
+          data-cy="search-input"
         />
-        <button @click="performSearch" class="search-btn" :disabled="isLoading">
+        <button @click="performSearch" class="search-btn" :disabled="isLoading" data-cy="search-button">
           {{ isLoading ? 'Searching...' : 'Search' }}
         </button>
       </div>
@@ -25,26 +26,26 @@
           <p>Searching datasets...</p>
         </div>
 
-        <div v-else-if="error" class="error-state">
+        <div v-else-if="error" class="error-state" data-cy="search-error">
           <div class="error-icon">⚠️</div>
           <h3>Search Error</h3>
           <p>{{ error }}</p>
           <button @click="performSearch" class="retry-btn">Try Again</button>
         </div>
 
-        <div v-else-if="results.length === 0 && query" class="empty-state">
+        <div v-else-if="results.length === 0 && query" class="empty-state" data-cy="search-empty-with-query">
           <div class="empty-icon">🔍</div>
           <h3>No Results Found</h3>
           <p>Try adjusting your search terms or use different keywords</p>
         </div>
 
-        <div v-else-if="results.length === 0" class="empty-state">
+        <div v-else-if="results.length === 0" class="empty-state" data-cy="search-empty">
           <div class="empty-icon">📊</div>
           <h3>Start Searching</h3>
           <p>Enter a query above to discover scientific datasets</p>
         </div>
 
-        <div v-else class="results-list">
+        <div v-else class="results-list" data-cy="search-results">
           <div class="results-header">
             <p class="results-count">{{ totalCount }} {{ totalCount === 1 ? 'result' : 'results' }} found</p>
           </div>
@@ -54,6 +55,7 @@
             :key="result.identifier"
             class="result-card"
             @click="viewDataset(result.identifier)"
+            data-cy="search-result-card"
           >
             <div class="result-header">
               <h3 class="result-title">{{ result.title }}</h3>
@@ -67,11 +69,12 @@
             </div>
           </div>
 
-          <div v-if="totalPages > 1" class="pagination-container">
+          <div v-if="totalPages > 1" class="pagination-container" data-cy="search-pagination">
             <button 
               class="page-btn" 
               :disabled="currentPage === 1 || isLoading"
               @click="changePage(currentPage - 1)"
+              data-cy="search-prev-page"
             >
               &laquo; Previous
             </button>
@@ -82,6 +85,7 @@
               class="page-btn" 
               :disabled="currentPage === totalPages || isLoading"
               @click="changePage(currentPage + 1)"
+              data-cy="search-next-page"
             >
               Next &raquo;
             </button>
