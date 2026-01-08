@@ -36,7 +36,10 @@
         <p>{{ geospatialData.abstract }}</p>
       </div>
 
-      <div v-if="geospatialData?.temporalExtentStart && geospatialData?.temporalExtentEnd" class="temporal-section">
+      <div
+        v-if="geospatialData?.temporalExtentStart && geospatialData?.temporalExtentEnd"
+        class="temporal-section"
+      >
         <h4>Temporal Extent</h4>
         <div class="temporal-range">
           <span>{{ formatDate(geospatialData.temporalExtentStart) }}</span>
@@ -64,7 +67,7 @@ export interface BoundingBox {
 }
 
 @Component({
-  name: 'GeospatialMapper'
+  name: 'GeospatialMapper',
 })
 export default class GeospatialMapper extends Vue {
   @Prop({ default: null })
@@ -98,13 +101,13 @@ export default class GeospatialMapper extends Vue {
           west: parseFloat(box.west || box.westBoundLongitude || 0),
           east: parseFloat(box.east || box.eastBoundLongitude || 0),
           south: parseFloat(box.south || box.southBoundLatitude || 0),
-          north: parseFloat(box.north || box.northBoundLatitude || 0)
+          north: parseFloat(box.north || box.northBoundLatitude || 0),
         };
       }
 
       // 2. Handle XML format using DOMParser (Standard Browser API)
       const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(trimmed, "text/xml");
+      const xmlDoc = parser.parseFromString(trimmed, 'text/xml');
 
       const getValue = (tagName: string): number => {
         // getElementsByTagName is robust against XML namespaces (e.g. gmd:westBoundLongitude)
@@ -119,7 +122,7 @@ export default class GeospatialMapper extends Vue {
         west: getValue('westBoundLongitude'),
         east: getValue('eastBoundLongitude'),
         south: getValue('southBoundLatitude'),
-        north: getValue('northBoundLatitude')
+        north: getValue('northBoundLatitude'),
       };
     } catch (e) {
       console.error('GeospatialMapper: Error parsing bounding box', e);
@@ -144,25 +147,26 @@ export default class GeospatialMapper extends Vue {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   }
 
   private async initializeMap(): Promise<void> {
     const mapElement = this.$refs.mapElement;
+
     if (!mapElement || !this.boundingBox) return;
 
     const box = this.parsedBox;
 
     const webMap = new WebMap({
-      basemap: 'topo-vector'
+      basemap: 'topo-vector',
     });
 
     this.mapView = new MapView({
       container: mapElement,
       map: webMap,
       center: [(box.west + box.east) / 2, (box.south + box.north) / 2],
-      zoom: 4
+      zoom: 4,
     });
 
     const graphicsLayer = new GraphicsLayer();
@@ -176,9 +180,9 @@ export default class GeospatialMapper extends Vue {
           [box.east, box.north],
           [box.east, box.south],
           [box.west, box.south],
-          [box.west, box.north]
-        ]
-      ]
+          [box.west, box.north],
+        ],
+      ],
     };
 
     const fillSymbol = {
@@ -186,20 +190,20 @@ export default class GeospatialMapper extends Vue {
       color: [59, 130, 246, 0.3],
       outline: {
         color: [59, 130, 246, 1],
-        width: 2
-      }
+        width: 2,
+      },
     };
 
     const polygonGraphic = new Graphic({
       geometry: polygon as any,
-      symbol: fillSymbol as any
+      symbol: fillSymbol as any,
     });
 
     graphicsLayer.add(polygonGraphic);
 
     await this.mapView.goTo({
       target: polygonGraphic,
-      zoom: 4
+      zoom: 4,
     });
   }
 }
