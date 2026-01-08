@@ -107,7 +107,7 @@ export default class GeospatialMapper extends Vue {
 
       // 2. Handle XML format using DOMParser (Standard Browser API)
       const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(trimmed, 'text/xml');
+      const xmlDoc = parser.parseFromString(`<root>${trimmed}</root>`, 'text/xml');
 
       const getValue = (tagName: string): number => {
         // getElementsByTagName is robust against XML namespaces (e.g. gmd:westBoundLongitude)

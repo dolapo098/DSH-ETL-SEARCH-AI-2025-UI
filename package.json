@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.{ts,tsx,vue}\"",
     "format": "prettier --write \"src/**/*.{ts,tsx,vue,css}\"",
+    "test:unit": "vitest",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
@@ -25,15 +26,19 @@
     "@typescript-eslint/eslint-plugin": "^8.52.0",
     "@typescript-eslint/parser": "^8.52.0",
     "@vitejs/plugin-vue": "^5.1.3",
+    "@vue/test-utils": "^2.4.6",
     "cypress": "^15.8.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-vue": "^9.27.0",
+    "flush-promises": "^1.0.2",
+    "jsdom": "^27.4.0",
     "prettier": "^3.7.4",
     "typescript": "^5.5.3",
     "vite": "^5.4.2",
+    "vitest": "^4.0.16",
     "vue-tsc": "^2.1.4"
   }
 }
