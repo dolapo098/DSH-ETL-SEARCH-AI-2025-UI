@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "useDefineForClassFields": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
+    "downlevelIteration": true,
     "types": ["node", "vite/client"],
 
     /* Bundler mode */

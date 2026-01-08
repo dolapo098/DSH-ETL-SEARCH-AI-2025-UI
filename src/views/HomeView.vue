@@ -92,7 +92,7 @@ import { Vue, Component } from 'vue-facing-decorator';
 import { namespace } from '@/store/StoreDecorators';
 import { Modules } from '@/store/StoreModuleTypes';
 import { SearchMutationTypes } from '@/store/modules/semanticSearch/SemanticSearchTypes';
-import { DatasetActionTypes, DiscoveryStats } from '@/store/modules/datasetMetadata/DatasetMetadataTypes';
+import { DatasetActionTypes, type DiscoveryStats } from '@/store/modules/datasetMetadata/DatasetMetadataTypes';
 import EtlControls from '@/components/EtlControls.vue';
 
 const SemanticSearch = namespace(Modules.SemanticSearch);

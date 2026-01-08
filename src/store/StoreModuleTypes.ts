@@ -1,5 +1,6 @@
 export enum Modules {
   SemanticSearch = 'semanticSearch',
   DatasetMetadata = 'datasetMetadata',
-  UIShell = 'uiShell'
+  UIShell = 'uiShell',
+  ChatAssistant = 'chatAssistant'
 }

@@ -24,14 +24,21 @@
     <footer class="app-footer">
       <p>&copy; 2025 DSH Dataset Search & Discovery Platform</p>
     </footer>
+
+    <!-- Conversational Discovery Assistant -->
+    <ChatAssistant />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-facing-decorator';
+import ChatAssistant from '@/components/ChatAssistant.vue';
 
 @Component({
-  name: 'App'
+  name: 'App',
+  components: {
+    ChatAssistant
+  }
 })
 export default class App extends Vue {
   public get isSearchPage(): boolean {

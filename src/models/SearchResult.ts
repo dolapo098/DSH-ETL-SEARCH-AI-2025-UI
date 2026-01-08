@@ -18,7 +18,12 @@ export interface SearchResultItem {
   explanation?: string;
 }
 
-export type MatchType = 'exact' | 'partial' | 'semantic' | 'fuzzy';
+export enum MatchType {
+  Exact = 'exact',
+  Partial = 'partial',
+  Semantic = 'semantic',
+  Fuzzy = 'fuzzy'
+}
 
 export interface SearchHighlight {
   field: string;

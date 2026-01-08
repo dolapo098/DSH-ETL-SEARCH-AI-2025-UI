@@ -19,11 +19,8 @@ export default defineConfig({
 			"@": fileURLToPath(new URL("./src", import.meta.url)),
 		},
 	},
-	optimizeDeps: {
-		include: ["leaflet"],
-	},
 	server: {
-		port: 8080,
+		port: 5173,
 		open: true,
 	},
 	esbuild: {
@@ -34,4 +31,4 @@ export default defineConfig({
 			},
 		},
 	},
-});
+} as any);

@@ -16,6 +16,7 @@
   "dependencies": {
     "@arcgis/core": "^4.34.8",
     "axios": "^1.6.2",
+    "leaflet": "^1.9.4",
     "vue": "^3.4.38",
     "vue-facing-decorator": "^4.0.1",
     "vue-router": "^4.2.5",
