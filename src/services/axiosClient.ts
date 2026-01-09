@@ -8,6 +8,7 @@ export class AxiosClientService {
       baseURL: baseURL,
       headers: { 'Content-Type': 'application/json' },
       withCredentials: false,
+      timeout: 120000, // 120 seconds for local LLM processing
     });
 
     this.initializeResponseInterceptor();

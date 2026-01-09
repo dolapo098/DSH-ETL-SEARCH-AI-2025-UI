@@ -32,7 +32,17 @@
 					data-cy="chat-message"
 				>
 					<div class="message-content">
-						{{ msg.content }}
+						<span v-for="(part, index) in parseMessage(msg.content)" :key="index">
+							<template v-if="part.type === 'text'">{{ part.value }}</template>
+							<router-link
+								v-else
+								:to="'/dataset/' + part.value"
+								class="dataset-link"
+								title="View Dataset Details"
+							>
+								[Dataset: {{ part.value.substring(0, 8) }}...]
+							</router-link>
+						</span>
 						<span class="message-time">{{ formatTime(msg.timestamp) }}</span>
 					</div>
 				</div>
@@ -116,6 +126,28 @@ export default class ChatAssistant extends Vue {
 			this.sendMessage(this.userInput.trim());
 			this.userInput = "";
 		}
+	}
+
+	private parseMessage(content: string): { type: "text" | "link"; value: string }[] {
+		const parts: { type: "text" | "link"; value: string }[] = [];
+		const regex = /\[ID:\s*([^\]]+)\]/g;
+		let lastIndex = 0;
+		let match;
+
+		while ((match = regex.exec(content)) !== null) {
+			if (match.index > lastIndex) {
+				parts.push({ type: "text", value: content.substring(lastIndex, match.index) });
+			}
+
+			parts.push({ type: "link", value: match[1].trim() });
+			lastIndex = regex.lastIndex;
+		}
+
+		if (lastIndex < content.length) {
+			parts.push({ type: "text", value: content.substring(lastIndex) });
+		}
+
+		return parts.length > 0 ? parts : [{ type: "text", value: content }];
 	}
 
 	private scrollToBottom(): void {
@@ -333,5 +365,16 @@ export default class ChatAssistant extends Vue {
 
 .send-icon {
 	font-size: 1rem;
+}
+
+.dataset-link {
+	color: #667eea;
+	text-decoration: underline;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.dataset-link:hover {
+	color: #764ba2;
 }
 </style>

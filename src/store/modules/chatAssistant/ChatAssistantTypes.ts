@@ -16,6 +16,7 @@ export enum ChatMutationTypes {
 	ADD_MESSAGE = "ADD_MESSAGE",
 	SET_LOADING = "SET_LOADING",
 	CLEAR_MESSAGES = "CLEAR_MESSAGES",
+	SET_HISTORY = "SET_HISTORY",
 }
 
 export enum ChatActionTypes {

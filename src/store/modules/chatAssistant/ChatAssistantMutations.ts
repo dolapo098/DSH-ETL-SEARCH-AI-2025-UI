@@ -14,4 +14,7 @@ export const mutations: MutationTree<ChatState> = {
 	[ChatMutationTypes.CLEAR_MESSAGES](state) {
 		state.messages = [];
 	},
+	[ChatMutationTypes.SET_HISTORY](state, history: ChatMessage[]) {
+		state.messages = history;
+	},
 };

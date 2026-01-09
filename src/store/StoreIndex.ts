@@ -3,6 +3,7 @@ import { semanticSearchModule } from "./modules/semanticSearch/SemanticSearchInd
 import { datasetMetadataModule } from "./modules/datasetMetadata/DatasetMetadataIndex";
 import { uiShellModule } from "./modules/uiShell/UIShellIndex";
 import { chatAssistantModule } from "./modules/chatAssistant/ChatAssistantIndex";
+import { chatPersistencePlugin } from "./plugins/chatPersistencePlugin";
 
 export const store = createStore({
 	modules: {
@@ -11,6 +12,7 @@ export const store = createStore({
 		uiShell: uiShellModule,
 		chatAssistant: chatAssistantModule,
 	},
+	plugins: [chatPersistencePlugin],
 	strict: process.env.NODE_ENV !== "production",
 });
 
