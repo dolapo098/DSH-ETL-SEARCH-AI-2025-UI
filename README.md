@@ -34,14 +34,14 @@ Key capabilities include:
 
 The UI communicates with two backend services:
 
-### Python AI Service (Port 8001)
+### Python AI Service (Port 8001) please confirm the port running
 
 | Endpoint           | Method | Description                                             |
 | ------------------ | ------ | ------------------------------------------------------- |
 | `/search/semantic` | POST   | Performs semantic vector search across indexed datasets |
 | `/agent/chat`      | POST   | Conversational AI agent for dataset discovery via RAG   |
 
-### .NET Data API (Port 5133)
+### .NET Data API (Port 5133) please confirm the port running
 
 | Endpoint                           | Method | Description                                      |
 | ---------------------------------- | ------ | ------------------------------------------------ |
