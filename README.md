@@ -1,108 +1,80 @@
 # DSH Dataset Search & Discovery - UI Application
 
-A professional enterprise-grade Vue 3 + TypeScript + Vuex application for searching and discovering environmental datasets using semantic search and natural language queries.
+## Overview
 
-## ✅ Successfully Built & Deployed
+The **DSH Dataset Search & Discovery UI** is a modern, enterprise-grade Vue 3 application that provides an intuitive interface for discovering and exploring environmental datasets. The application integrates with both the .NET Ingestion Hub and Python AI Search Service to deliver semantic search, conversational AI assistance, and comprehensive dataset exploration capabilities.
 
-This project has been successfully built using professional software engineering practices, clean architecture principles, and modern TypeScript patterns.
+Key capabilities include:
 
-## 📁 Professional Folder Structure
+- **Semantic Search**: Natural language queries powered by AI embeddings
+- **Conversational Agent**: AI-powered chat interface for dataset discovery
+- **Dataset Exploration**: Detailed views with metadata, relationships, and resources
+- **ETL Management**: Administrative controls for dataset processing
+- **Spatial Visualization**: Map-based dataset coverage display
 
-The project follows an enterprise-standard structure optimized for scalability and maintainability:
+---
 
-```
-src/
-├── main.ts                    # Application entry point with store & router
-├── App.vue                    # Root component with navigation
-├── router/                    # Vue Router configuration
-│   └── index.ts
-├── store/                     # Vuex state management (modular)
-│   ├── index.ts
-│   ├── types.ts
-│   └── modules/
-│       ├── search/           # Search state module
-│       ├── datasets/         # Dataset management module
-│       └── ui/               # UI state module
-├── models/                    # TypeScript data models
-│   ├── Dataset.ts
-│   ├── SearchQuery.ts
-│   └── SearchResult.ts
-├── views/                     # Page-level components
-│   ├── HomeView.vue
-│   ├── SearchView.vue
-│   ├── DatasetDetailView.vue
-│   └── NotFoundView.vue
-├── services/                  # Business logic layer
-├── components/                # Reusable UI components
-├── types/                     # Global TypeScript definitions
-├── utils/                     # Utility functions
-└── constants/                 # Application constants
-```
+## Requirements
 
-## 🏗️ Architecture Highlights
+| Component            | Specification                               |
+| -------------------- | ------------------------------------------- |
+| **Runtime**          | Node.js 18+                                 |
+| **Package Manager**  | npm 9+ or yarn 1.22+                        |
+| **Build Tool**       | Vite 5.4+                                   |
+| **Framework**        | Vue 3.4+                                    |
+| **Language**         | TypeScript 5.5+                             |
+| **State Management** | Vuex 4.1+                                   |
+| **Routing**          | Vue Router 4.2+                             |
+| **HTTP Client**      | Axios 1.6+                                  |
+| **Backend Services** | .NET API (port 5133), Python AI (port 8001) |
 
-### Clean Architecture Principles
+---
 
-1. **Separation of Concerns**: Models, Services, Store, Components clearly separated
-2. **Dependency Injection**: Services are singleton instances
-3. **Type Safety**: Full TypeScript coverage with strict typing
-4. **Modular Store**: Vuex modules organized by feature (search, datasets, ui)
+## Endpoints
 
-## 🛠️ Technology Stack
+The UI communicates with two backend services:
 
-- **Vue 3.4**: Progressive framework with Composition API
-- **TypeScript 5.5**: Static type checking
-- **Vuex 4.1**: State management with TypeScript support
-- **Vue Router 4.2**: Client-side routing
-- **Vite 5.4**: Next-generation build tool
-- **Axios 1.6**: HTTP client
+### Python AI Service (Port 8001)
 
-## 🚀 Getting Started
+| Endpoint           | Method | Description                                             |
+| ------------------ | ------ | ------------------------------------------------------- |
+| `/search/semantic` | POST   | Performs semantic vector search across indexed datasets |
+| `/agent/chat`      | POST   | Conversational AI agent for dataset discovery via RAG   |
 
-### Install Dependencies
-```bash
-npm install
-```
+### .NET Data API (Port 5133)
 
-### Development Server
-```bash
-npm run dev
-```
-Server runs at `http://localhost:8080`
+| Endpoint                           | Method | Description                                      |
+| ---------------------------------- | ------ | ------------------------------------------------ |
+| `/api/Search?q={query}`            | GET    | Keyword-based search across dataset metadata     |
+| `/api/Search/details/{identifier}` | GET    | Retrieves complete dataset information           |
+| `/api/Search/stats`                | GET    | Returns catalog statistics (datasets, providers) |
+| `/api/Etl/process-all`             | POST   | Triggers ETL processing for all datasets         |
+| `/api/Etl/process/{identifier}`    | POST   | Triggers ETL processing for a specific dataset   |
 
-### Production Build
-```bash
-npm run build
-```
+---
 
-## 📝 Development Commands
+## Functionalities
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
+| Functionality            | Route              | Description                                                                                                                              |
+| ------------------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Home Dashboard**       | `/`                | Landing page with search interface, example queries, feature highlights, and system statistics (total datasets, providers, categories)   |
+| **Semantic Search**      | `/search`          | Advanced search interface with natural language query support. Displays results ranked by semantic similarity with deduplication         |
+| **Dataset Details**      | `/dataset/:id`     | Comprehensive dataset view showing metadata, geospatial data, relationships, supporting documents, data files, and download links        |
+| **Map Visualization**    | `/map`             | Interactive map displaying dataset geographic coverage and spatial distribution using ArcGIS/Leaflet integration                         |
+| **Conversational Agent** | Global (Chat Icon) | AI-powered chat assistant accessible from any page. Provides natural language dataset discovery with RAG-powered responses and citations |
+| **ETL Controls**         | Home Page          | Administrative interface for triggering dataset processing (process all or individual datasets) with status monitoring                   |
+| **Statistics Display**   | Home Page          | Real-time dashboard showing total datasets, data providers, and category counts retrieved from the .NET API                              |
 
-## 🎯 Key Features
+### Key Features
 
-### State Management (Vuex)
+- **Persistent Chat History**: Conversation state saved to localStorage
+- **Dynamic Citation Parsing**: Automatically converts dataset citations in chat responses to clickable links
+- **Responsive Design**: Mobile-friendly interface with modern UI/UX
+- **Error Handling**: Comprehensive error messages with fallback to keyword search
+- **State Management**: Centralized Vuex store with modular organization (search, datasets, chat, UI)
 
-**Search Module**
-- Query management
-- Results caching
-- Filter state
-- Pagination control
+---
 
-**Datasets Module**
-- Dataset cache with TTL
-- Individual dataset details
-- Relationship management
+## License
 
-**UI Module**
-- Notification system
-- Modal management
-- Theme preferences
-
-## 📄 License
-
-Proprietary - DSH RSE Code Evaluation Task – Dec 2025
+This project is part of the DSH ETL Search & Discovery Platform.
